@@ -10,12 +10,22 @@ import com.kodlamaio.bootcampprojeckt.entities.concretes.Instructor;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class InstructorManager implements InstructorService {
 
     private InstructorDao instructorDao;
     private ModelMapperService modelMapperService;
+
+    @Override
+    public List<InstructorResponse> getAll() {
+        List<Instructor> instructors = this.instructorDao.findAll();
+        List<InstructorResponse> instructorResponses = instructors.stream().map(instructor -> this.modelMapperService.forDto().map(instructor,InstructorResponse.class)).collect(Collectors.toList());
+        return instructorResponses;
+    }
 
     @Override
     public InstructorResponse add(InstructorRequest instructorRequest) {

@@ -10,12 +10,22 @@ import com.kodlamaio.bootcampprojeckt.entities.concretes.Applicant;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class ApplicantManager implements ApplicantService {
 
     private ApplicantDao applicantDao;
     private ModelMapperService modelMapperService;
+
+    @Override
+    public List<ApplicantResponse> getAll() {
+        List<Applicant> applicants = this.applicantDao.findAll();
+        List<ApplicantResponse> applicantResponses = applicants.stream().map(applicant -> this.modelMapperService.forDto().map(applicant,ApplicantResponse.class)).collect(Collectors.toList());
+        return applicantResponses;
+    }
 
     @Override
     public ApplicantResponse add(ApplicantRequest applicantRequest) {

@@ -4,8 +4,11 @@ import com.kodlamaio.bootcampprojeckt.business.requests.applicantRequests.Applic
 import com.kodlamaio.bootcampprojeckt.business.requests.applicantRequests.UpdateApplicantRequest;
 import com.kodlamaio.bootcampprojeckt.business.responses.ApplicantResponse;
 
+import java.util.List;
+
 public interface ApplicantService {
 
+    List<ApplicantResponse> getAll();
     ApplicantResponse add (ApplicantRequest applicantRequest);
     ApplicantResponse delete(int id);
     ApplicantResponse update(UpdateApplicantRequest updateApplicantRequest);

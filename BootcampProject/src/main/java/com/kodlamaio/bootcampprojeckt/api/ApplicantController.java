@@ -7,6 +7,8 @@ import com.kodlamaio.bootcampprojeckt.business.responses.ApplicantResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/applicant")
 @AllArgsConstructor
@@ -14,6 +16,10 @@ public class ApplicantController {
 
     private ApplicantService applicantService;
 
+    @GetMapping("/getall")
+    public List<ApplicantResponse> getAll(){
+        return this.applicantService.getAll();
+    }
     @PostMapping("/add")
    public  ApplicantResponse add (ApplicantRequest applicantRequest){
        return this.applicantService.add(applicantRequest);

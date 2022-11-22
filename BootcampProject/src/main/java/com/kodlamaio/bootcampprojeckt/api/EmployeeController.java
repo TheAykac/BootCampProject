@@ -7,13 +7,18 @@ import com.kodlamaio.bootcampprojeckt.business.responses.EmployeeResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/employee")
 @AllArgsConstructor
 public class EmployeeController {
 
     private EmployeeService employeeService;
-
+    @GetMapping("/getAll")
+    public List<EmployeeResponse> getAll(){
+        return  this.employeeService.getAll();
+    }
     @PostMapping("/add")
     public EmployeeResponse add(EmployeeRequest employeeRequest) {
         return this.employeeService.add(employeeRequest);

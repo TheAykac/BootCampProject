@@ -7,12 +7,19 @@ import com.kodlamaio.bootcampprojeckt.business.responses.InstructorResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/instructor")
 @AllArgsConstructor
 public class InstructorController {
 
     private InstructorService instructorService;
+
+    @GetMapping("/getAll")
+    public List<InstructorResponse> getAll(){
+        return this.instructorService.getAll();
+    }
 
     @PostMapping("/add")
     public InstructorResponse add (InstructorRequest instructorRequest) {

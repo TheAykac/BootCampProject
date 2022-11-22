@@ -10,12 +10,22 @@ import com.kodlamaio.bootcampprojeckt.entities.concretes.Employee;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class EmployeeManager implements EmployeeService {
 
     private EmployeeDao employeeDao;
     private ModelMapperService modelMapperService;
+
+    @Override
+    public List<EmployeeResponse> getAll() {
+        List<Employee> employees = this.employeeDao.findAll();
+        List<EmployeeResponse> employeeResponses = employees.stream().map(employee -> this.modelMapperService.forDto().map(employee,EmployeeResponse.class)).collect(Collectors.toList());
+        return employeeResponses;
+    }
 
     @Override
     public EmployeeResponse add(EmployeeRequest employeeRequest) {
