@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kodlamaio</groupId>
-    <artifactId>BootcampProjeckt</artifactId>
+    <artifactId>BootcampProject</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>BootcampProjeckt</name>
     <description>BootcampProjeckt</description>

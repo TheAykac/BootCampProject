@@ -1,9 +1,14 @@
 package com.kodlamaio.bootcampprojeckt.api;
 
 import com.kodlamaio.bootcampprojeckt.business.abstracts.EmployeeService;
-import com.kodlamaio.bootcampprojeckt.business.requests.employeeRequests.EmployeeRequest;
+import com.kodlamaio.bootcampprojeckt.business.requests.employeeRequests.CreateEmployeeRequest;
 import com.kodlamaio.bootcampprojeckt.business.requests.employeeRequests.UpdateEmployeeRequest;
-import com.kodlamaio.bootcampprojeckt.business.responses.EmployeeResponse;
+import com.kodlamaio.bootcampprojeckt.business.responses.employeeResponses.CreateEmployeeResponse;
+import com.kodlamaio.bootcampprojeckt.business.responses.employeeResponses.GetEmployeeResponse;
+import com.kodlamaio.bootcampprojeckt.business.responses.employeeResponses.UpdateEmployeeResponse;
+import com.kodlamaio.bootcampprojeckt.business.responses.instructorResponses.GetInstructorResponse;
+import com.kodlamaio.bootcampprojeckt.core.utilities.result.DataResult;
+import com.kodlamaio.bootcampprojeckt.core.utilities.result.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,24 +20,28 @@ import java.util.List;
 public class EmployeeController {
 
     private EmployeeService employeeService;
-    @GetMapping("/getAll")
-    public List<EmployeeResponse> getAll(){
-        return  this.employeeService.getAll();
+
+    @GetMapping()
+    public DataResult<List<CreateEmployeeResponse>> getAll(){
+        return this.employeeService.getAll();
     }
-    @PostMapping("/add")
-    public EmployeeResponse add(EmployeeRequest employeeRequest) {
-        return this.employeeService.add(employeeRequest);
+    @PostMapping()
+    public DataResult<CreateEmployeeResponse> add(CreateEmployeeRequest createEmployeeRequest){
+        return this.employeeService.add(createEmployeeRequest);
     }
-    @DeleteMapping("/delete")
-    public EmployeeResponse delete (int id) {
+    @DeleteMapping("/{id}")
+    public Result delete (@PathVariable int id){
         return this.employeeService.delete(id);
     }
-
-    @PutMapping("/update")
-    public EmployeeResponse update(UpdateEmployeeRequest updateEmployeeRequest) {
+    @PutMapping()
+    public DataResult<UpdateEmployeeResponse> update(UpdateEmployeeRequest updateEmployeeRequest){
         return this.employeeService.update(updateEmployeeRequest);
     }
 
+    @GetMapping("/{id}")
+    public DataResult<GetEmployeeResponse> getById(@PathVariable int id){
+        return this.employeeService.getById(id);
+}
 
 
 }
