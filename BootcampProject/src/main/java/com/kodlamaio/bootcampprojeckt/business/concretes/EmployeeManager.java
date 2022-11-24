@@ -7,12 +7,9 @@ import com.kodlamaio.bootcampprojeckt.business.requests.employeeRequests.UpdateE
 import com.kodlamaio.bootcampprojeckt.business.responses.employeeResponses.CreateEmployeeResponse;
 import com.kodlamaio.bootcampprojeckt.business.responses.employeeResponses.GetEmployeeResponse;
 import com.kodlamaio.bootcampprojeckt.business.responses.employeeResponses.UpdateEmployeeResponse;
-import com.kodlamaio.bootcampprojeckt.business.responses.instructorResponses.GetInstructorResponse;
+import com.kodlamaio.bootcampprojeckt.core.utilities.exceptions.BusinessException;
 import com.kodlamaio.bootcampprojeckt.core.utilities.mapping.ModelMapperService;
-import com.kodlamaio.bootcampprojeckt.core.utilities.result.DataResult;
-import com.kodlamaio.bootcampprojeckt.core.utilities.result.Result;
-import com.kodlamaio.bootcampprojeckt.core.utilities.result.SuccessDataResult;
-import com.kodlamaio.bootcampprojeckt.core.utilities.result.SuccessResult;
+import com.kodlamaio.bootcampprojeckt.core.utilities.result.*;
 import com.kodlamaio.bootcampprojeckt.dataAccess.EmployeeDao;
 import com.kodlamaio.bootcampprojeckt.entities.concretes.Employee;
 import lombok.AllArgsConstructor;
@@ -37,39 +34,67 @@ public class EmployeeManager implements EmployeeService {
 
     @Override
     public DataResult<GetEmployeeResponse> getById(int id) {
-        Employee employee = this.employeeDao.findById(id).get();
-
-        GetEmployeeResponse getEmployeeResponse =
-                this.modelMapperService.forDto()
-                        .map(employee, GetEmployeeResponse.class);
-
-        return new SuccessDataResult<GetEmployeeResponse>(getEmployeeResponse);
+        try {
+            checkIfExistsById(id);
+            Employee employee = this.employeeDao.findById(id).get();
+            GetEmployeeResponse getEmployeeResponse = this.modelMapperService.forDto().map(employee, GetEmployeeResponse.class);
+            return new SuccessDataResult<GetEmployeeResponse>(getEmployeeResponse);
+        } catch (Exception e) {
+            return new ErrorDataResult<>(e.getMessage());
+        }
     }
 
     @Override
     public DataResult<CreateEmployeeResponse> add(CreateEmployeeRequest createEmployeeRequest) {
-        Employee employee = this.modelMapperService.forRequest().map(createEmployeeRequest,Employee.class);
-        this.employeeDao.save(employee);
+        try {
+            checkIfExistsByNationalIdentity(createEmployeeRequest.getNationalIdentity());
+            Employee employee = this.modelMapperService.forRequest().map(createEmployeeRequest, Employee.class);
+            this.employeeDao.save(employee);
+            CreateEmployeeResponse createEmployeeResponse = this.modelMapperService.forDto().map(employee, CreateEmployeeResponse.class);
+            return new SuccessDataResult<CreateEmployeeResponse>(createEmployeeResponse, Messages.GlobalMessage.DataListed);
+        } catch (Exception e) {
+            return new ErrorDataResult<>(e.getMessage());
+        }
 
-        CreateEmployeeResponse createEmployeeResponse = this.modelMapperService.forDto().map(employee, CreateEmployeeResponse.class);
-        return new SuccessDataResult<CreateEmployeeResponse>(createEmployeeResponse,Messages.GlobalMessage.DataListed);
     }
 
     @Override
     public Result delete(int id) {
-        Employee employee = this.employeeDao.findById(id).get();
-        this.employeeDao.deleteById(id);
-        CreateEmployeeResponse createEmployeeResponse = this.modelMapperService.forDto().map(employee, CreateEmployeeResponse.class);
-        return new SuccessResult(Messages.GlobalMessage.DataDeleted);
+        try {
+            checkIfExistsById(id);
+            Employee employee = this.employeeDao.findById(id).get();
+            this.employeeDao.deleteById(id);
+            CreateEmployeeResponse createEmployeeResponse = this.modelMapperService.forDto().map(employee, CreateEmployeeResponse.class);
+            return new SuccessResult(Messages.GlobalMessage.DataDeleted);
+        } catch (Exception e) {
+            return new ErrorResult(e.getMessage());
+        }
+
     }
 
     @Override
-    public DataResult<UpdateEmployeeResponse>  update(UpdateEmployeeRequest updateEmployeeRequest) {
-        Employee employee = this.modelMapperService.forRequest().map(updateEmployeeRequest,Employee.class);
+    public DataResult<UpdateEmployeeResponse> update(UpdateEmployeeRequest updateEmployeeRequest) {
+        try {
+            checkIfExistsById(updateEmployeeRequest.getId());
+            Employee employee = this.modelMapperService.forRequest().map(updateEmployeeRequest, Employee.class);
+            this.employeeDao.save(employee);
+            UpdateEmployeeResponse updateEmployeeResponse = this.modelMapperService.forDto().map(employee, UpdateEmployeeResponse.class);
+            return new SuccessDataResult<>(updateEmployeeResponse, Messages.GlobalMessage.DataUpdated);
+        } catch (Exception e) {
+            return new ErrorDataResult<>(e.getMessage());
+        }
+    }
 
-        this.employeeDao.save(employee);
+    private void checkIfExistsByNationalIdentity(String nationalIdentity) throws BusinessException {
+        if (this.employeeDao.existsByNationalIdentity(nationalIdentity)) {
+            throw new BusinessException(Messages.Employee.EmployeeNationalIdentityNotFound + nationalIdentity);
+        }
+    }
 
-        UpdateEmployeeResponse updateEmployeeResponse = this.modelMapperService.forDto().map(employee, UpdateEmployeeResponse.class);
-        return new SuccessDataResult<>(updateEmployeeResponse,Messages.GlobalMessage.DataUpdated);
+    private void checkIfExistsById(int id) throws BusinessException {
+        if (!this.employeeDao.existsById(id)) {
+            throw new BusinessException(Messages.Employee.EmployeeIdNotFound + id);
+
+        }
     }
 }

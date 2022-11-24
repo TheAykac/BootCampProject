@@ -22,22 +22,23 @@ public class InstructorController {
     private InstructorService instructorService;
 
 
-
     @GetMapping()
-    public DataResult<List<GetAllInstructorResponse>> getAll(){
+    public DataResult<List<GetAllInstructorResponse>> getAll() {
         return this.instructorService.getAll();
     }
+
     @GetMapping("/{id}")
-    public DataResult<GetInstructorResponse> getById(@PathVariable int id){
+    public DataResult<GetInstructorResponse> getById(@PathVariable int id) {
         return this.instructorService.getById(id);
     }
+
     @PostMapping()
-    public DataResult<CreateInstructorResponse> add(@RequestBody CreateInstructorRequest createInstructorRequest){
+    public DataResult<CreateInstructorResponse> add(@RequestBody CreateInstructorRequest createInstructorRequest) {
         return this.instructorService.add(createInstructorRequest);
     }
 
     @PutMapping()
-    public DataResult<UpdateInstructorResponse>update(@RequestBody UpdateInstructorRequest updateInstructorRequest){
+    public DataResult<UpdateInstructorResponse> update(@RequestBody UpdateInstructorRequest updateInstructorRequest) {
         return this.instructorService.update(updateInstructorRequest);
     }
 
@@ -45,8 +46,6 @@ public class InstructorController {
     public Result delete(@PathVariable int id) {
         return this.instructorService.delete(id);
     }
-
-
 
 
 }

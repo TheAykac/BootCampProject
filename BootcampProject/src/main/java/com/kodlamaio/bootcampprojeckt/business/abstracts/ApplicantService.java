@@ -14,8 +14,12 @@ import java.util.List;
 public interface ApplicantService {
 
     DataResult<List<GetAllApplicantResponse>> getAll();
+
     DataResult<GetApplicantResponse> getById(int id);
-    DataResult<CreateApplicantResponse> add (CreateApplicantRequest createApplicantRequest);
+
+    DataResult<CreateApplicantResponse> add(CreateApplicantRequest createApplicantRequest);
+
     Result delete(int id);
+
     DataResult<UpdateApplicantResponse> update(UpdateApplicantRequest updateApplicantRequest);
 }

@@ -22,24 +22,27 @@ public class ApplicantController {
     private ApplicantService applicantService;
 
     @GetMapping()
-    public DataResult<List<GetAllApplicantResponse>> getAll(){
+    public DataResult<List<GetAllApplicantResponse>> getAll() {
         return this.applicantService.getAll();
     }
 
     @GetMapping("/{id}")
-    public DataResult<GetApplicantResponse> getById( @PathVariable int id){
+    public DataResult<GetApplicantResponse> getById(@PathVariable int id) {
         return this.applicantService.getById(id);
     }
+
     @PostMapping()
-    public DataResult<CreateApplicantResponse> add (CreateApplicantRequest createApplicantRequest){
+    public DataResult<CreateApplicantResponse> add(CreateApplicantRequest createApplicantRequest) {
         return this.applicantService.add(createApplicantRequest);
     }
+
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable int id){
+    public Result delete(@PathVariable int id) {
         return this.applicantService.delete(id);
     }
+
     @PutMapping()
-    public DataResult<UpdateApplicantResponse> update(UpdateApplicantRequest updateApplicantRequest){
+    public DataResult<UpdateApplicantResponse> update(UpdateApplicantRequest updateApplicantRequest) {
         return this.applicantService.update(updateApplicantRequest);
     }
 
