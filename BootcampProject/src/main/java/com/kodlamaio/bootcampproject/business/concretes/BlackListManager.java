@@ -61,7 +61,7 @@ public class BlackListManager implements BlackListService {
 
     @Override
     public DataResult<GetBlackListResponse> getById(int id) {
-        checIfExistsById(id);
+        checkIfExistsById(id);
         BlackList blackList = this.blackListDao.getById(id);
         GetBlackListResponse getBlackListResponse = this.modelMapperService.forDto().map(blackList, GetBlackListResponse.class);
         return new SuccessDataResult<>(getBlackListResponse, Messages.GlobalMessage.DataListed);
@@ -70,13 +70,13 @@ public class BlackListManager implements BlackListService {
 
     @Override
     public Result delete(int id) {
-        checIfExistsById(id);
+        checkIfExistsById(id);
         this.blackListDao.deleteById(id);
         return new SuccessResult(Messages.GlobalMessage.DataDeleted);
     }
 
     @Override
-    public void checIfExistsById(int id) {
+    public void checkIfExistsById(int id) {
         if (!this.blackListDao.existsById(id)) {
             throw new BusinessException(Messages.BlackList.BlackListIdNotFound + id);
         }

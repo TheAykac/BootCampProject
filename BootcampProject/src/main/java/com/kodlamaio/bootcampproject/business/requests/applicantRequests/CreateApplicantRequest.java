@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Data
@@ -14,10 +14,19 @@ import java.time.LocalDate;
 public class CreateApplicantRequest {
 
 
+
+    @Size(min = 2)
+    @NotBlank
     private String firstName;
+    @Size(min = 2)
+    @NotBlank
     private String lastName;
+    @Email
     private String email;
+    @NotBlank
     private String password;
+    @Size(min = 10)
+    @NotBlank
     private String about;
     @Size(min = 11, max = 11)
     private String nationalIdentity;

@@ -51,7 +51,7 @@ public class BootcampManager implements BootcampService {
     @Override
     public DataResult<CreateBootcampResponse> add(CreateBootcampRequest createBootcampRequest) {
         this.instructorService.checkIfExistsByInstructorId(createBootcampRequest.getInstructorId());
-        checkIfFisrtDateBeforeSecondDate(createBootcampRequest.getStartDate(), createBootcampRequest.getEndDate());
+        checkIfFirstDateBeforeSecondDate(createBootcampRequest.getStartDate(), createBootcampRequest.getEndDate());
         Bootcamp bootcamp = this.modelMapperService.forRequest().map(createBootcampRequest, Bootcamp.class);
         bootcamp.setId(0);
         this.bootcampDao.save(bootcamp);
@@ -64,7 +64,7 @@ public class BootcampManager implements BootcampService {
     @Override
     public DataResult<UpdateBootcampResponse> update(UpdateBootcampRequest updateBootcampRequest) {
         this.instructorService.checkIfExistsByInstructorId(updateBootcampRequest.getInstructorId());
-        checkIfFisrtDateBeforeSecondDate(updateBootcampRequest.getStartDate(), updateBootcampRequest.getEndDate());
+        checkIfFirstDateBeforeSecondDate(updateBootcampRequest.getStartDate(), updateBootcampRequest.getEndDate());
         Bootcamp bootcamp = this.modelMapperService.forRequest().map(updateBootcampRequest, Bootcamp.class);
         this.bootcampDao.save(bootcamp);
         UpdateBootcampResponse updateBootcampResponse = this.modelMapperService.forDto().map(bootcamp, UpdateBootcampResponse.class);
@@ -87,7 +87,7 @@ public class BootcampManager implements BootcampService {
         }
     }
 
-    private void checkIfFisrtDateBeforeSecondDate(LocalDate startDate, LocalDate endDate) {
+    private void checkIfFirstDateBeforeSecondDate(LocalDate startDate, LocalDate endDate) {
         if (endDate.isBefore(startDate) || startDate.equals(endDate)) {
             throw new BusinessException(Messages.BootCamp.FINISH_DATE_CANNOT_BEFORE_START_DATE);
         }
