@@ -18,6 +18,9 @@ public class Messages {
     public static class Applicant {
         public static final String ApplicantNationalIdentityNotFound = "Applicant National Identity Already Exists nationalIdentity: ";
         public static final String ApplicantIdNotFound = "Applicant Id Not Exists id ";
+        public static final String ApplicantEmailInvalid = "Applicant Email is Invalid, email: ";
+
+
     }
 
     public static class Employee {
@@ -36,6 +39,7 @@ public class Messages {
     public static class Application {
         public static final String ApplicationIdNotFoud = "Application Id Not Exists id: ";
         public static final String ApplicationStateNotFound = "Enter One of These Values : WAIT, APROVED, REJECT";
+        public static final String ApplicationAlreadyExists="You Have an Applications for This Bootcamp bootcampId: ";
     }
 
     public static class BootCamp {

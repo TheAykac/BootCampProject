@@ -2,6 +2,7 @@ package com.kodlamaio.bootcampproject;
 
 import com.kodlamaio.bootcampproject.core.utilities.exceptions.BusinessException;
 import com.kodlamaio.bootcampproject.core.utilities.result.ErrorDataResult;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,10 +19,12 @@ import java.util.Map;
 
 @SpringBootApplication
 @RestControllerAdvice
+@Slf4j
 public class BootcampProjecktApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(BootcampProjecktApplication.class, args);
+
     }
 
     @Bean

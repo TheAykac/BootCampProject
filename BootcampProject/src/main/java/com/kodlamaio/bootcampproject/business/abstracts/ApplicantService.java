@@ -26,4 +26,6 @@ public interface ApplicantService {
 
 
     void checkIfExistsByApplicantId(int id) throws BusinessException;
+
+
 }

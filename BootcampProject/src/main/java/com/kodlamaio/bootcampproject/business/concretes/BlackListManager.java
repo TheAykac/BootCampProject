@@ -16,6 +16,7 @@ import com.kodlamaio.bootcampproject.core.utilities.result.Result;
 import com.kodlamaio.bootcampproject.core.utilities.result.SuccessDataResult;
 import com.kodlamaio.bootcampproject.core.utilities.result.SuccessResult;
 import com.kodlamaio.bootcampproject.dataAccess.BlackListDao;
+import com.kodlamaio.bootcampproject.entities.concretes.Applicant;
 import com.kodlamaio.bootcampproject.entities.concretes.BlackList;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -61,7 +62,7 @@ public class BlackListManager implements BlackListService {
 
     @Override
     public DataResult<GetBlackListResponse> getById(int id) {
-        checkIfExistsById(id);
+        checIfExistsById(id);
         BlackList blackList = this.blackListDao.getById(id);
         GetBlackListResponse getBlackListResponse = this.modelMapperService.forDto().map(blackList, GetBlackListResponse.class);
         return new SuccessDataResult<>(getBlackListResponse, Messages.GlobalMessage.DataListed);
@@ -70,13 +71,13 @@ public class BlackListManager implements BlackListService {
 
     @Override
     public Result delete(int id) {
-        checkIfExistsById(id);
+        checIfExistsById(id);
         this.blackListDao.deleteById(id);
         return new SuccessResult(Messages.GlobalMessage.DataDeleted);
     }
 
     @Override
-    public void checkIfExistsById(int id) {
+    public void checIfExistsById(int id) {
         if (!this.blackListDao.existsById(id)) {
             throw new BusinessException(Messages.BlackList.BlackListIdNotFound + id);
         }

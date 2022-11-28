@@ -3,6 +3,7 @@ package com.kodlamaio.bootcampproject.entities.abstracts;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -25,7 +26,8 @@ public class User {
     private String lastName;
     @Column(name = "email")
     private String email;
-    @Column(name = "national_identity")
+    @Column(name = "national_identity",unique = true)
+    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private String nationalIdentity;
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;

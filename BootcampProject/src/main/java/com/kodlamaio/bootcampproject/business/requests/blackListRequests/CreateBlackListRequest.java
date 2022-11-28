@@ -18,4 +18,5 @@ public class CreateBlackListRequest {
     private LocalDate dateOfBan;
     private String description;
 
+
 }

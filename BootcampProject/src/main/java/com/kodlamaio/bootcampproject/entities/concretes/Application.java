@@ -22,7 +22,8 @@ public class Application {
     @Enumerated(EnumType.STRING)
     private ApplicationState applicationState;
 
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn(name ="bootcampId")
     private Bootcamp bootCamp;
 
     @ManyToOne

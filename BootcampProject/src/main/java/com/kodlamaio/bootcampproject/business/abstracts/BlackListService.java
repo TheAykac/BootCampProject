@@ -23,7 +23,7 @@ public interface BlackListService {
 
     Result delete(int id);
 
-    void checkIfExistsById(int id);
+    void checIfExistsById(int id);
 
     void checkIfNotExistsByApplicantId(int id);
 

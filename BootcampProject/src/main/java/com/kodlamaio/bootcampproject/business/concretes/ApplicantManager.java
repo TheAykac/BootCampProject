@@ -20,6 +20,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +48,7 @@ public class ApplicantManager implements ApplicantService {
 
     @Override
     public DataResult<CreateApplicantResponse> add(CreateApplicantRequest createApplicantRequest) {
+
         checkIfExistsByNationalIdentity(createApplicantRequest.getNationalIdentity());
         Applicant applicant = this.modelMapperService.forRequest().map(createApplicantRequest, Applicant.class);
         this.applicantDao.save(applicant);
@@ -83,4 +86,6 @@ public class ApplicantManager implements ApplicantService {
         }
 
     }
+
+
 }

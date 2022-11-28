@@ -12,6 +12,7 @@ import com.kodlamaio.bootcampproject.core.utilities.result.Result;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class ApplicantController {
     }
 
     @PostMapping()
-    public DataResult<CreateApplicantResponse> add(@RequestBody CreateApplicantRequest createApplicantRequest) {
+    public DataResult<CreateApplicantResponse> add(@RequestBody @Valid CreateApplicantRequest createApplicantRequest) {
         return this.applicantService.add(createApplicantRequest);
     }
 

@@ -19,6 +19,7 @@ import com.kodlamaio.bootcampproject.core.utilities.result.SuccessDataResult;
 import com.kodlamaio.bootcampproject.core.utilities.result.SuccessResult;
 import com.kodlamaio.bootcampproject.dataAccess.ApplicationDao;
 import com.kodlamaio.bootcampproject.entities.concretes.Application;
+import com.kodlamaio.bootcampproject.entities.concretes.Bootcamp;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -47,8 +48,9 @@ public class ApplicationManager implements ApplicationService {
 
     @Override
     public DataResult<CreateApplicationResponse> add(CreateApplicationRequest createApplicationRequest) {
+        checkIfSameBootcampApplicationExists(createApplicationRequest.getBootcampId(),createApplicationRequest.getApplicantId());
         this.blackListService.checkIfNotExistsByApplicantId(createApplicationRequest.getApplicantId());
-        this.applicantService.checkIfExistsByApplicantId(createApplicationRequest.getApplicantId());
+//        this.applicantService.checkIfExistsByApplicantId(createApplicationRequest.getApplicantId());
         this.bootcampService.checkIfExistByBootcampId(createApplicationRequest.getBootcampId());
         Application application = this.modelMapperService.forRequest().map(createApplicationRequest, Application.class);
         this.applicationDao.save(application);
@@ -93,6 +95,38 @@ public class ApplicationManager implements ApplicationService {
             throw new BusinessException(Messages.Application.ApplicationIdNotFoud + id);
         }
     }
+
+    private void checkIfSameBootcampApplicationExists(int bootcampId,int applicantId){
+        List<Application> applications = this.applicationDao.getApplicationByBootCamp_Id(bootcampId);
+        for (Application application: applications) {
+            if (application.getApplicant().getId()==applicantId){
+                throw new BusinessException(Messages.Application.ApplicationAlreadyExists);
+            }
+
+
+        }
+    }
+    /*
+    Mongo-Elastic-FreBase
+    asenkron iletişi
+    keycloak
+    denormalize
+    Message broker
+    rabit mq kafka azure sb
+    ardibms
+
+    GateWay
+    -load balacing
+    -security
+
+    Eureka Disc Service
+
+    -config server
+    ..Server arasındaki değişiliği sağlıyor
+
+
+     */
+
 
 
 }
